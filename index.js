@@ -7,20 +7,30 @@ import path from "path";
 
 import { fileURLToPath } from "url";
 
+import "dotenv/config";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = 4000;
 
+const username=process.env.MONGO_USERNAME
+const password=process.env.MONGO_PASSWORD
+
+// console.log(username,password);  
+
 app.use(cors({ origin: "*" }));
 
-mongoose.connect("mongodb+srv://shashankgoyal777:databasekapassword@cluster0.rz07emt.mongodb.net/blogs?retryWrites=true&w=majority&appName=Cluster0").then(() => {
-  app.listen(port, () => {
-    console.log("Server running on port " + port);
+mongoose
+  .connect(
+    "mongodb+srv://"+username+":"+password+"@cluster0.rz07emt.mongodb.net/blogs?retryWrites=true&w=majority&appName=Cluster0"
+  )
+  .then(() => {
+    app.listen(port, () => {
+      console.log("Server running on port " + port);
+    });
   });
-});
-
 
 const blogSchema = new mongoose.Schema({
   name: {
